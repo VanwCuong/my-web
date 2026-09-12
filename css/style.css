@@ -429,10 +429,11 @@ html[data-theme="light"] .vc-section-link.is-hovered {
 }
 
 .nav__logo {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.35rem;
-  letter-spacing: -0.02em;
+  font-size: 1.18rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   background: var(--accent-grad);
   -webkit-background-clip: text;
   background-clip: text;
@@ -440,6 +441,10 @@ html[data-theme="light"] .vc-section-link.is-hovered {
   color: transparent;
   text-decoration: none;
   transition: opacity var(--transition);
+}
+.nav__logo span {
+  color: var(--text);
+  opacity: 0.9;
 }
 .nav__logo:hover { opacity: 0.8; }
 
