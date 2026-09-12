@@ -52,7 +52,10 @@
         <div class="hero__text">
           <p class="hero__badge reveal"><span class="dot" aria-hidden="true"></span>Online</p>
           <p class="hero__hello reveal">Xin chào, tôi là</p>
-          <h1 class="hero__name reveal">Nguyễn Văn Cường</h1>
+          <h1 class="hero__name reveal" aria-label="Nguyễn Văn Cường">
+            <span class="hero__name-line">Nguyễn Văn</span>
+            <span class="hero__name-line">Cường</span>
+          </h1>
           <p class="hero__role reveal">Frontend Developer</p>
           <p class="hero__tagline reveal">Tôi xây dựng các giao diện web hiện đại, mượt mà và thân thiện với người dùng.</p>
           <div class="hero__actions reveal">
@@ -272,6 +275,3 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
-  <script type="module" src="js/main.js"></script>
-</body>
-</html>
