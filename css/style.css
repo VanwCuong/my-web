@@ -1248,37 +1248,42 @@ html[data-theme="light"] .noise { opacity: 0.035; }
 
 @media (max-width: 700px) {
   .vc-section-nav {
-    width: min(100%, 92%);
+    width: 100%;
     margin-top: -1rem;
   }
 
   .vc-section-list {
+    width: 100%;
     align-items: stretch;
   }
 
   .vc-section-link {
     width: 100%;
     min-height: 72px;
-    padding: 0.9rem 1rem 0.9rem 1rem;
+    padding: 0.9rem 0.9rem 0.9rem 0.9rem;
     border-radius: 20px;
     justify-content: flex-start;
-    gap: 0.75rem;
-    transform: perspective(1000px) rotateZ(var(--vc-rotation)) translate3d(var(--vc-shift), 0, 0) scale(0.99);
+    gap: 0.7rem;
+    transform: perspective(1000px) rotateZ(var(--vc-rotation)) translate3d(var(--vc-shift), 0, 0) scale(1);
   }
 
   .vc-section-index {
-    flex: 0 0 46px;
+    flex: 0 0 42px;
     letter-spacing: 0.16em;
     text-align: left;
+    padding-left: 0.15rem;
   }
 
   .vc-section-text {
     flex: 1 1 auto;
     min-width: 0;
-    font-size: clamp(1.5rem, 6vw, 2.2rem);
+    max-width: 100%;
+    font-size: clamp(1.45rem, 5.8vw, 2.1rem);
     letter-spacing: -0.05em;
     text-align: left;
     line-height: 1.05;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .vc-section-arrow {
