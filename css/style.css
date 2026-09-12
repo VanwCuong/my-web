@@ -55,16 +55,16 @@ html[data-theme="light"] {
   --surface-strong: #ffffff;
   --card: rgba(255, 255, 255, 0.9);
   --border: rgba(15, 23, 42, 0.08);
-  --border-strong: rgba(79, 108, 255, 0.18);
+  --border-strong: rgba(79, 108, 255, 0.2);
   --text: #101827;
   --text-muted: #5d697d;
-  --nav-bg: rgba(255, 255, 255, 0.72);
+  --nav-bg: rgba(255, 255, 255, 0.76);
   --menu-bg: rgba(255, 255, 255, 0.96);
-  --glass-bg: rgba(255, 255, 255, 0.5);
-  --glass-strong: rgba(255, 255, 255, 0.72);
-  --glass-edge: rgba(79, 108, 255, 0.16);
-  --glass-shadow: rgba(79, 108, 255, 0.08);
-  --orb-opacity: 0.24;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-strong: rgba(255, 255, 255, 0.86);
+  --glass-edge: rgba(99, 102, 241, 0.2);
+  --glass-shadow: rgba(79, 108, 255, 0.12);
+  --orb-opacity: 0.22;
   --grid-line: rgba(15, 23, 42, 0.04);
   --scrim: linear-gradient(180deg, rgba(243, 245, 248, 0) 0%, rgba(243, 245, 248, 0.9) 100%);
 
@@ -155,6 +155,12 @@ body::after {
   margin-inline: auto;
 }
 
+.nav.container {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
+}
+
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -184,14 +190,43 @@ body::after {
   text-decoration: none;
   cursor: pointer;
   font-family: var(--font-body);
-  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
-  backdrop-filter: blur(20px) saturate(1.45) brightness(1.08);
-  -webkit-backdrop-filter: blur(20px) saturate(1.45) brightness(1.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), inset 0 -10px 14px rgba(255,255,255,0.02), 0 12px 22px rgba(2, 6, 23, 0.08);
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06));
+  backdrop-filter: blur(18px) saturate(1.5) brightness(1.06);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5) brightness(1.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34), inset 0 -10px 14px rgba(255,255,255,0.02), 0 10px 18px rgba(15, 23, 42, 0.08);
   transition: transform var(--transition), box-shadow var(--transition),
     background var(--transition), border-color var(--transition), color var(--transition), filter var(--transition);
   will-change: transform;
   overflow: hidden;
+}
+
+.nav,
+.btn,
+.theme-toggle,
+.nav__link,
+.vc-section-link,
+.skill-card,
+.project-card,
+.stat-box,
+.about__main,
+.about__panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+  border: 1px solid var(--glass-edge);
+  backdrop-filter: blur(18px) saturate(1.5) brightness(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5) brightness(1.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -12px 20px rgba(255,255,255,0.03), 0 12px 22px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .btn {
+  border-color: rgba(99, 102, 241, 0.22);
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(244,247,255,0.64));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -10px 18px rgba(164,180,214,0.08), 0 12px 22px rgba(79, 108, 255, 0.08);
+}
+
+html[data-theme="light"] .btn:hover,
+html[data-theme="light"] .btn:focus-visible {
+  border-color: rgba(79, 108, 255, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -10px 18px rgba(164,180,214,0.12), 0 16px 26px rgba(79, 108, 255, 0.12);
 }
 
 .btn::before {
@@ -281,9 +316,9 @@ html[data-theme="light"] .nav,
 html[data-theme="light"] .btn,
 html[data-theme="light"] .theme-toggle,
 html[data-theme="light"] .vc-section-link {
-  background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.35));
-  border-color: rgba(15, 23, 42, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.68), inset 0 -10px 18px rgba(255,255,255,0.18), 0 12px 24px rgba(15, 23, 42, 0.06);
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(246,248,255,0.66));
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.88), inset 0 -10px 18px rgba(164,180,214,0.08), 0 12px 24px rgba(79, 108, 255, 0.08);
 }
 
 html[data-theme="dark"] .nav,
@@ -295,14 +330,42 @@ html[data-theme="dark"] .vc-section-link {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -10px 18px rgba(255,255,255,0.02), 0 12px 24px rgba(2, 6, 23, 0.08);
 }
 
+html[data-theme="light"] .theme-toggle {
+  border-color: rgba(99, 102, 241, 0.24);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+html[data-theme="light"] .theme-toggle:hover,
+html[data-theme="light"] .theme-toggle:focus-visible {
+  border-color: rgba(79, 108, 255, 0.46);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12), 0 12px 22px rgba(79, 108, 255, 0.12);
+}
+
+html[data-theme="light"] .nav__link:hover,
+html[data-theme="light"] .nav__link:focus-visible {
+  border: 1px solid rgba(99, 102, 241, 0.18);
+}
+
+html[data-theme="light"] .vc-section-link::before {
+  border-color: rgba(99, 102, 241, 0.18);
+  box-shadow: inset 0 1px rgba(255,255,255,0.8), 0 0 0 1px rgba(99,102,241,0.06);
+}
+
+html[data-theme="light"] .vc-section-link:hover,
+html[data-theme="light"] .vc-section-link:focus-visible,
+html[data-theme="light"] .vc-section-link.is-hovered {
+  border-color: rgba(79, 108, 255, 0.34);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -10px 18px rgba(164,180,214,0.08), 0 18px 34px rgba(79, 108, 255, 0.08);
+}
+
 .site-header {
   position: fixed;
   top: 14px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
-  width: min(100%, var(--device-shell));
-  max-width: calc(100vw - (var(--viewport-gap) * 2));
+  width: min(100%, calc(var(--device-shell) - 18px));
+  max-width: calc(100vw - (var(--viewport-gap) * 2 + 18px));
   padding-inline: 0;
   pointer-events: none; /* cho phép click xuyên 2 bên, nav tự nhận lại */
 }
@@ -316,12 +379,12 @@ html[data-theme="dark"] .vc-section-link {
   justify-content: space-between;
   height: 60px;
   padding-inline: 1.4rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.05));
-  backdrop-filter: blur(24px) saturate(1.55) brightness(1.1);
-  -webkit-backdrop-filter: blur(24px) saturate(1.55) brightness(1.1);
+  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05));
+  backdrop-filter: blur(24px) saturate(1.6) brightness(1.12);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6) brightness(1.12);
   border: 1px solid rgba(255,255,255,0.16);
   border-radius: 999px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.26), inset 0 -12px 18px rgba(255,255,255,0.02), 0 14px 28px rgba(15, 23, 42, 0.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.32), inset 0 -12px 18px rgba(255,255,255,0.03), 0 14px 28px rgba(15, 23, 42, 0.10);
 }
 
 .nav__logo {
