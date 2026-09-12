@@ -27,17 +27,23 @@ export function initBackground() {
 
   const COUNT = isLowEnd ? 400 : 1200;
   const positions = new Float32Array(COUNT * 3);
+  const anchor = new Float32Array(COUNT * 3);
+  const drift = new Float32Array(COUNT * 3);
   const colors = new Float32Array(COUNT * 3);
   const cA = new THREE.Color("#6366f1"); // indigo
   const cB = new THREE.Color("#a855f7"); // violet
   for (let i = 0; i < COUNT; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 38;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 26;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 22;
+    const idx = i * 3;
+    positions[idx] = (Math.random() - 0.5) * 38;
+    positions[idx + 1] = (Math.random() - 0.5) * 26;
+    positions[idx + 2] = (Math.random() - 0.5) * 22;
+    anchor[idx] = positions[idx];
+    anchor[idx + 1] = positions[idx + 1];
+    anchor[idx + 2] = positions[idx + 2];
     const c = Math.random() < 0.5 ? cA : cB;
-    colors[i * 3] = c.r;
-    colors[i * 3 + 1] = c.g;
-    colors[i * 3 + 2] = c.b;
+    colors[idx] = c.r;
+    colors[idx + 1] = c.g;
+    colors[idx + 2] = c.b;
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -81,6 +87,7 @@ export function initBackground() {
   }
 
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+  const burst = { active: false, strength: 0, x: -1.15, y: -1.7, z: 0.6, heldMs: 0 };
   let scrollT = 0; // 0..1 theo toàn trang
   const isMobile = window.matchMedia("(max-width: 900px)").matches || "ontouchstart" in window;
 
@@ -164,6 +171,14 @@ export function initBackground() {
   window.addEventListener("pointerdown", (e) => {
     if (reducedMotion) return;
     if (e.target.closest && e.target.closest(INTERACTIVE)) return;
+
+    burst.active = true;
+    burst.strength = Math.max(burst.strength, 0.25);
+    burst.heldMs = 0;
+    burst.x = -1.15;
+    burst.y = -1.7;
+    burst.z = 0.6;
+
     dragging = true;
     lastX = e.clientX;
     pulse = 1;
@@ -173,8 +188,14 @@ export function initBackground() {
     spinV += (e.clientX - lastX) * 0.0004;
     lastX = e.clientX;
   }, { passive: true });
-  window.addEventListener("pointerup", () => { dragging = false; }, { passive: true });
-  window.addEventListener("pointercancel", () => { dragging = false; }, { passive: true });
+  window.addEventListener("pointerup", () => {
+    dragging = false;
+    burst.active = false;
+  }, { passive: true });
+  window.addEventListener("pointercancel", () => {
+    dragging = false;
+    burst.active = false;
+  }, { passive: true });
 
   const themeWatcher = new MutationObserver(() => {
     const light = document.documentElement.dataset.theme === "light";
@@ -218,6 +239,15 @@ export function initBackground() {
     pointer.x += (pointer.tx - pointer.x) * 0.05;
     pointer.y += (pointer.ty - pointer.y) * 0.05;
 
+    if (burst.active) {
+      burst.heldMs += 16.67;
+      const ramp = Math.min(1, burst.heldMs / 5000);
+      burst.strength = Math.min(1.8, 0.35 + ramp * 1.45);
+    } else {
+      burst.strength *= 0.9;
+      if (burst.strength < 0.02) burst.strength = 0;
+    }
+
     userSpin += spinV;
     spinV *= 0.94;
     pulse *= 0.9;
@@ -225,18 +255,43 @@ export function initBackground() {
     world.rotation.y += (pointer.x * 0.18 - world.rotation.y) * 0.03;
     world.rotation.x += (pointer.y * 0.12 - world.rotation.x) * 0.03;
 
-    particles.rotation.y = t * 0.025 + pointer.x * 0.22 + scrollT * 0.6 + userSpin;
-    particles.rotation.x = pointer.y * 0.14;
-    ring1.rotation.z = t * 0.06 + scrollT * 0.4;
-    if (ring2) ring2.rotation.z = -t * 0.04;
+    const positionArray = geometry.attributes.position.array;
+    const burstPower = 0.08 + burst.strength * 0.9;
+
+    for (let i = 0; i < COUNT; i++) {
+      const idx = i * 3;
+      const flowX = burst.x * burstPower * (0.9 + (i % 9) * 0.14);
+      const flowY = burst.y * burstPower * (1.1 + (i % 7) * 0.18);
+      const flowZ = burst.z * burstPower * 0.4;
+
+      drift[idx] += (flowX - drift[idx]) * (burst.active ? 0.23 : 0.1);
+      drift[idx + 1] += (flowY - drift[idx + 1]) * (burst.active ? 0.23 : 0.1);
+      drift[idx + 2] += (flowZ - drift[idx + 2]) * (burst.active ? 0.23 : 0.1);
+
+      if (!burst.active) {
+        drift[idx] *= 0.83;
+        drift[idx + 1] *= 0.83;
+        drift[idx + 2] *= 0.83;
+      }
+
+      positionArray[idx] = anchor[idx] + drift[idx];
+      positionArray[idx + 1] = anchor[idx + 1] + drift[idx + 1];
+      positionArray[idx + 2] = anchor[idx + 2] + drift[idx + 2];
+    }
+    geometry.attributes.position.needsUpdate = true;
+
+    particles.rotation.y = t * 0.025 + pointer.x * 0.22 + scrollT * 0.6 + userSpin + burst.strength * 0.22;
+    particles.rotation.x = pointer.y * 0.14 + burst.strength * 0.08;
+    ring1.rotation.z = t * 0.06 + scrollT * 0.4 + burst.strength * 0.9;
+    if (ring2) ring2.rotation.z = -t * 0.04 + burst.strength * 0.6;
     if (crystal) {
       crystal.rotation.x = t * 0.15 + pointer.y * 0.35;
       crystal.rotation.y = t * 0.1 + pointer.x * 0.35;
       crystal.position.y = 2.5 + Math.sin(t * 0.6) * 0.5;
     }
 
-    camera.position.x += (pointer.x * 1.7 - camera.position.x) * 0.03;
-    camera.position.y += (pointer.y * 1.1 + scrollT * 2.4 - camera.position.y) * 0.03;
+    camera.position.x += ((pointer.x * 1.7) - camera.position.x) * 0.08;
+    camera.position.y += ((pointer.y * 1.1 + scrollT * 2.4) - camera.position.y) * 0.08;
     camera.lookAt(0, scrollT * 1.2, 0);
 
     renderer.render(scene, camera);
