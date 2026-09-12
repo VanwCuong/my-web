@@ -21,17 +21,44 @@ themeToggle.addEventListener("click", () => {
 const navToggle = document.getElementById("nav-toggle");
 const navMenu = document.getElementById("nav-menu");
 
+function closeNavMenu() {
+  navMenu.classList.remove("open");
+  navToggle.setAttribute("aria-expanded", "false");
+  navToggle.setAttribute("aria-label", "Mở menu");
+}
+
 navToggle.addEventListener("click", () => {
-  const open = navMenu.classList.toggle("open");
-  navToggle.setAttribute("aria-expanded", String(open));
-  navToggle.setAttribute("aria-label", open ? "Đóng menu" : "Mở menu");
+  const isOpen = navMenu.classList.contains("open");
+  if (isOpen) {
+    closeNavMenu();
+    return;
+  }
+
+  navMenu.classList.add("open");
+  navToggle.setAttribute("aria-expanded", "true");
+  navToggle.setAttribute("aria-label", "Đóng menu");
 });
 
 navMenu.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => {
-    navMenu.classList.remove("open");
-    navToggle.setAttribute("aria-expanded", "false");
+    closeNavMenu();
   });
+});
+
+document.addEventListener("click", (event) => {
+  const clickedToggle = event.target.closest("#nav-toggle");
+  const clickedMenu = event.target.closest("#nav-menu");
+
+  if (!clickedToggle && !clickedMenu && navMenu.classList.contains("open")) {
+    closeNavMenu();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && navMenu.classList.contains("open")) {
+    closeNavMenu();
+    navToggle.focus();
+  }
 });
 
 const sections = document.querySelectorAll("main section[id]");
@@ -79,76 +106,51 @@ const revealObserver = new IntersectionObserver(
 );
 document.querySelectorAll(".reveal, .skill-card").forEach((el) => revealObserver.observe(el));
 
-const finePointer = window.matchMedia("(pointer: fine)").matches;
-const noMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const sectionNavLinks = document.querySelectorAll(".vc-section-link");
 
-if (finePointer && !noMotion) {
-  document.documentElement.classList.add("custom-cursor");
-  const cursorDot = document.createElement("div");
-  const cursorRing = document.createElement("div");
-  cursorDot.className = "cursor-dot";
-  cursorRing.className = "cursor-ring";
-  cursorDot.setAttribute("aria-hidden", "true");
-  cursorRing.setAttribute("aria-hidden", "true");
-  document.body.append(cursorDot, cursorRing);
-
-  let cx = innerWidth / 2, cy = innerHeight / 2, rgx = cx, rgy = cy, cursorOn = false;
-  window.addEventListener("pointermove", (e) => {
-    cx = e.clientX; cy = e.clientY;
-    if (!cursorOn) {
-      cursorOn = true;
-      cursorDot.classList.add("on");
-      cursorRing.classList.add("on");
-    }
-  }, { passive: true });
-  window.addEventListener("pointerdown", () => cursorRing.classList.add("down"));
-  window.addEventListener("pointerup", () => cursorRing.classList.remove("down"));
-  window.addEventListener("pointerover", (e) => {
-    const el = e.target;
-    const isField = !!(el.closest && el.closest("input, textarea"));
-    const isInteractive = !!(el.closest && el.closest("a, button, [role='button'], .skill-card, .project-card"));
-    cursorRing.classList.toggle("hover", isInteractive && !isField);
-    cursorRing.classList.toggle("off", isField);
-    cursorDot.classList.toggle("off", isField);
-  }, { passive: true });
-
-  (function cursorLoop() {
-    rgx += (cx - rgx) * 0.16;
-    rgy += (cy - rgy) * 0.16;
-    cursorDot.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-    cursorRing.style.transform = `translate(${rgx}px, ${rgy}px) translate(-50%, -50%)`;
-    requestAnimationFrame(cursorLoop);
-  })();
-
-  document.querySelectorAll(".btn--primary, .btn--ghost, .socials a, .theme-toggle").forEach((el) => {
-    const strength = 12;
-    el.addEventListener("pointermove", (e) => {
-      const r = el.getBoundingClientRect();
-      const dx = e.clientX - (r.left + r.width / 2);
-      const dy = e.clientY - (r.top + r.height / 2);
-      el.style.transform = `translate(${(dx / r.width) * strength}px, ${(dy / r.height) * strength}px)`;
-    });
-    el.addEventListener("pointerleave", () => { el.style.transform = ""; });
-  });
-
-  document.querySelectorAll(".project-card, .stat-box, .hero__frame").forEach((card) => {
-    card.addEventListener("pointermove", (e) => {
-      const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width;
-      const py = (e.clientY - r.top) / r.height;
-      card.style.setProperty("--gx", px * 100 + "%");
-      card.style.setProperty("--gy", py * 100 + "%");
-      card.style.setProperty("--rx", (py - 0.5) * -8 + "deg");
-      card.style.setProperty("--ry", (px - 0.5) * 8 + "deg");
-      card.style.transform = `perspective(1000px) rotateX(${(py - 0.5) * -8}deg) rotateY(${(px - 0.5) * 8}deg) translateY(-3px)`;
-    });
-    card.addEventListener("pointerleave", () => {
-      card.style.setProperty("--rx", "0deg");
-      card.style.setProperty("--ry", "0deg");
-      card.style.transform = "";
-    });
+function clearSectionNavHover() {
+  sectionNavLinks.forEach((link) => {
+    link.classList.remove("is-hovered", "is-dimmed");
   });
 }
+
+function updateSectionNavFocus(link) {
+  if (!link) {
+    clearSectionNavHover();
+    return;
+  }
+
+  sectionNavLinks.forEach((item) => {
+    const isActive = item === link;
+    item.classList.toggle("is-hovered", isActive);
+    item.classList.toggle("is-dimmed", !isActive);
+  });
+}
+
+sectionNavLinks.forEach((link) => {
+  link.addEventListener("pointerenter", () => updateSectionNavFocus(link));
+  link.addEventListener("pointerleave", () => clearSectionNavHover());
+  link.addEventListener("focus", () => updateSectionNavFocus(link));
+  link.addEventListener("blur", () => clearSectionNavHover());
+  link.addEventListener("click", () => updateSectionNavFocus(link));
+});
+
+window.addEventListener("wheel", () => {
+  clearSectionNavHover();
+}, { passive: true });
+
+window.addEventListener("scroll", () => {
+  clearSectionNavHover();
+}, { passive: true });
+
+window.addEventListener("pointermove", (event) => {
+  const hoveredLink = document.elementFromPoint(event.clientX, event.clientY)?.closest(".vc-section-link");
+  if (hoveredLink) {
+    updateSectionNavFocus(hoveredLink);
+  } else {
+    clearSectionNavHover();
+  }
+}, { passive: true });
 
 const toast = document.getElementById("toast");
 let toastTimer;
