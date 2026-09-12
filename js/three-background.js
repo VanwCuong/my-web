@@ -82,14 +82,69 @@ export function initBackground() {
 
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   let scrollT = 0; // 0..1 theo toàn trang
+  const isMobile = window.matchMedia("(max-width: 900px)").matches || "ontouchstart" in window;
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
 
   function setPointer(clientX, clientY) {
     pointer.tx = (clientX / window.innerWidth) * 2 - 1;
     pointer.ty = -(clientY / window.innerHeight) * 2 + 1;
   }
+
+  function setDeviceTilt(event) {
+    if (event.gamma === null || event.beta === null) return;
+    const gamma = clamp(event.gamma / 35, -1, 1);
+    const beta = clamp((event.beta - 30) / 50, -1, 1);
+    pointer.tx = gamma * 1.3;
+    pointer.ty = -beta * 1.1;
+  }
+
+  if (isMobile) {
+    const enableMotion = () => {
+      if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
+        DeviceOrientationEvent.requestPermission()
+          .then((state) => {
+            if (state === "granted") {
+              window.addEventListener("deviceorientation", setDeviceTilt, { passive: true });
+            }
+          })
+          .catch(() => {});
+      } else {
+        window.addEventListener("deviceorientation", setDeviceTilt, { passive: true });
+      }
+    };
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchDragging = false;
+
+    window.addEventListener("touchstart", (e) => {
+      if (e.touches[0]) {
+        touchDragging = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+      enableMotion();
+    }, { passive: true });
+
+    window.addEventListener("touchmove", (e) => {
+      if (!touchDragging || !e.touches[0]) return;
+      const dx = (e.touches[0].clientX - touchStartX) / window.innerWidth;
+      const dy = (e.touches[0].clientY - touchStartY) / window.innerHeight;
+      pointer.tx = clamp(dx * 2.6, -1.2, 1.2);
+      pointer.ty = clamp(-dy * 2.6, -1.2, 1.2);
+    }, { passive: true });
+
+    window.addEventListener("touchend", () => {
+      touchDragging = false;
+    }, { passive: true });
+  }
+
   window.addEventListener("pointermove", (e) => setPointer(e.clientX, e.clientY), { passive: true });
   window.addEventListener("touchmove", (e) => {
-    if (e.touches[0]) setPointer(e.touches[0].clientX, e.touches[0].clientY);
+    if (!isMobile && e.touches[0]) setPointer(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
 
   function updateScroll() {
