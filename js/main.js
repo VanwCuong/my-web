@@ -6,6 +6,14 @@ try {
   console.warn("Không khởi tạo được nền 3D:", err);
 }
 
+document.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+});
+
+document.addEventListener("dragstart", (event) => {
+  event.preventDefault();
+});
+
 const themeToggle = document.getElementById("theme-toggle");
 const storedTheme = localStorage.getItem("theme");
 const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
