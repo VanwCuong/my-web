@@ -1252,21 +1252,38 @@ html[data-theme="light"] .noise { opacity: 0.035; }
     margin-top: -1rem;
   }
 
+  .vc-section-list {
+    align-items: stretch;
+  }
+
   .vc-section-link {
     width: 100%;
     min-height: 72px;
     padding: 0.9rem 1rem 0.9rem 1rem;
     border-radius: 20px;
+    justify-content: flex-start;
+    gap: 0.75rem;
     transform: perspective(1000px) rotateZ(var(--vc-rotation)) translate3d(var(--vc-shift), 0, 0) scale(0.99);
   }
 
   .vc-section-index {
+    flex: 0 0 46px;
     letter-spacing: 0.16em;
+    text-align: left;
   }
 
   .vc-section-text {
+    flex: 1 1 auto;
+    min-width: 0;
     font-size: clamp(1.5rem, 6vw, 2.2rem);
     letter-spacing: -0.05em;
+    text-align: left;
+    line-height: 1.05;
+  }
+
+  .vc-section-arrow {
+    margin-left: auto;
+    flex-shrink: 0;
   }
 }
 
