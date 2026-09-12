@@ -101,7 +101,7 @@ body {
   line-height: 1.75;
   font-size: 1rem;
   letter-spacing: 0.01em;
-  overflow-x: hidden;
+  overflow-x: visible;
   transition: background 0.4s ease, color 0.4s ease;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -554,29 +554,43 @@ html[data-theme="light"] .icon--moon { display: none; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-size: 0.85rem;
-  margin-bottom: 0.6rem;
+  margin: 0 0 0.2rem;
+  transform: translateY(-2px);
 }
 
 .hero__name {
-  display: inline-block;
-  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   width: fit-content;
+  max-width: 100%;
+  min-width: 0;
   font-family: var(--font-script);
   font-size: clamp(4.4rem, 7.4vw, 8.4rem);
   font-weight: 400;
   line-height: 0.72;
   letter-spacing: 0.03em;
-  margin-bottom: 0.9rem;
+  margin: 0 0 0.7rem 0;
   text-transform: none;
   font-style: normal;
   text-shadow: 0 12px 24px rgba(15, 23, 42, 0.12), 0 0 16px rgba(148, 163, 184, 0.08);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   font-variant-ligatures: common-ligatures;
   filter: drop-shadow(0 8px 12px rgba(137, 92, 246, 0.08));
   overflow: visible;
-  padding-inline: 0.04em;
+  padding-inline: 0.06em;
   white-space: normal;
+  word-break: keep-all;
+  text-wrap: balance;
   color: var(--text);
+}
+
+.hero__name-line {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  line-height: 0.82;
+  margin-inline: 0.02em;
 }
 
 .hero__role {
@@ -1605,7 +1619,7 @@ html[data-theme="light"] .noise { opacity: 0.035; }
 @media (max-width: 480px) {
   .hero { padding-top: 110px; overflow: visible; }
   .hero__name {
-    display: block;
+    display: flex;
     width: 100%;
     max-width: 100%;
     font-size: clamp(3rem, 13vw, 5rem);
@@ -1615,6 +1629,19 @@ html[data-theme="light"] .noise { opacity: 0.035; }
     padding-inline: 0.02em;
     transform: none;
     white-space: normal;
+    text-wrap: balance;
+    align-items: center;
+  }
+
+  .hero__name-line {
+    display: block;
+    width: 100%;
+    text-align: center;
+    line-height: 0.8;
+  }
+
+  .hero__hello {
+    transform: translateY(-1px);
   }
   .hero__avatar { width: min(170px, 56vw); }
   .hero__actions .btn { flex: 1 1 auto; }
