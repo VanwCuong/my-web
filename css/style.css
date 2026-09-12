@@ -1,6 +1,8 @@
 :root {
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Sora", "Inter", system-ui, sans-serif;
+  --shell-width: min(1120px, 92vw);
+  --shell-pad: 16px;
 
   --accent-1: #6366f1;
   --accent-2: #a855f7;
@@ -130,7 +132,10 @@ body::after {
   display: block;
 }
 
-.container { width: min(1120px, 92%); margin-inline: auto; }
+.container {
+  width: min(var(--shell-width), calc(100vw - 18px));
+  margin-inline: auto;
+}
 
 .skip-link {
   position: absolute;
@@ -238,11 +243,13 @@ body::after {
   position: fixed;
   top: 14px; left: 0; right: 0;
   z-index: 50;
-  padding-inline: 16px;
+  padding-inline: var(--shell-pad);
   pointer-events: none; /* cho phép click xuyên 2 bên, nav tự nhận lại */
 }
 
 .nav {
+  width: min(100%, var(--shell-width));
+  max-width: calc(100vw - 18px);
   pointer-events: auto;
   display: flex;
   align-items: center;
@@ -1247,8 +1254,14 @@ html[data-theme="light"] .noise { opacity: 0.035; }
 }
 
 @media (max-width: 700px) {
+  :root {
+    --shell-width: calc(100vw - 18px);
+    --shell-pad: 9px;
+  }
+
   .vc-section-nav {
-    width: 100%;
+    width: calc(100vw - 18px);
+    max-width: 100%;
     margin-top: -1rem;
   }
 
