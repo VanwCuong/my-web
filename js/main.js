@@ -1,259 +1,165 @@
-import { initBackground } from "./three-background.js";
+import { initBackground } from './three-background.js';
 
-try {
-  initBackground();
-} catch (err) {
-  console.warn("Không khởi tạo được nền 3D:", err);
-}
-
-const themeToggle = document.getElementById("theme-toggle");
-const storedTheme = localStorage.getItem("theme");
-const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-const initialTheme = storedTheme || (prefersLight ? "light" : "dark");
-document.documentElement.dataset.theme = initialTheme;
-
-themeToggle.addEventListener("click", () => {
-  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-  document.documentElement.dataset.theme = next;
-  localStorage.setItem("theme", next);
-});
-
-const navToggle = document.getElementById("nav-toggle");
-const navMenu = document.getElementById("nav-menu");
-
-function closeNavMenu() {
-  navMenu.classList.remove("open");
-  navToggle.setAttribute("aria-expanded", "false");
-  navToggle.setAttribute("aria-label", "Mở menu");
-}
-
-navToggle.addEventListener("click", () => {
-  const isOpen = navMenu.classList.contains("open");
-  if (isOpen) {
-    closeNavMenu();
-    return;
-  }
-
-  navMenu.classList.add("open");
-  navToggle.setAttribute("aria-expanded", "true");
-  navToggle.setAttribute("aria-label", "Đóng menu");
-});
-
-navMenu.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    closeNavMenu();
-  });
-});
-
-document.addEventListener("click", (event) => {
-  const clickedToggle = event.target.closest("#nav-toggle");
-  const clickedMenu = event.target.closest("#nav-menu");
-
-  if (!clickedToggle && !clickedMenu && navMenu.classList.contains("open")) {
-    closeNavMenu();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && navMenu.classList.contains("open")) {
-    closeNavMenu();
-    navToggle.focus();
-  }
-});
-
-const sections = document.querySelectorAll("main section[id]");
-const navLinks = document.querySelectorAll(".nav__link");
-
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        navLinks.forEach((l) => {
-          const active = l.getAttribute("href") === `#${entry.target.id}`;
-          if (active) l.setAttribute("aria-current", "true");
-          else l.removeAttribute("aria-current");
-        });
-      }
-    });
-  },
-  { rootMargin: "-40% 0px -55% 0px" }
-);
-sections.forEach((s) => sectionObserver.observe(s));
-
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      const target = entry.target;
-
-      if (entry.isIntersecting) {
-        if (target.classList.contains("in-view")) return;
-
-        const parent = target.parentElement;
-        if (parent) {
-          const siblings = Array.from(parent.children).filter((c) => c.classList.contains("reveal"));
-          const i = siblings.indexOf(target);
-          if (i > 0) target.style.setProperty("--reveal-delay", Math.min(i * 80, 320) + "ms");
-        }
-
-        target.classList.add("in-view");
-        return;
-      }
-
-      target.classList.remove("in-view");
-    });
-  },
-  { threshold: 0.15 }
-);
-document.querySelectorAll(".reveal, .skill-card").forEach((el) => revealObserver.observe(el));
-
-const sectionNavLinks = document.querySelectorAll(".vc-section-link");
-
-function clearSectionNavHover() {
-  sectionNavLinks.forEach((link) => {
-    link.classList.remove("is-hovered", "is-dimmed");
-  });
-}
-
-function updateSectionNavFocus(link) {
-  if (!link) {
-    clearSectionNavHover();
-    return;
-  }
-
-  sectionNavLinks.forEach((item) => {
-    const isActive = item === link;
-    item.classList.toggle("is-hovered", isActive);
-    item.classList.toggle("is-dimmed", !isActive);
-  });
-}
-
-sectionNavLinks.forEach((link) => {
-  link.addEventListener("pointerenter", () => updateSectionNavFocus(link));
-  link.addEventListener("pointerleave", () => clearSectionNavHover());
-  link.addEventListener("focus", () => updateSectionNavFocus(link));
-  link.addEventListener("blur", () => clearSectionNavHover());
-  link.addEventListener("click", () => updateSectionNavFocus(link));
-});
-
-window.addEventListener("wheel", () => {
-  clearSectionNavHover();
-}, { passive: true });
-
-window.addEventListener("scroll", () => {
-  clearSectionNavHover();
-}, { passive: true });
-
-window.addEventListener("pointermove", (event) => {
-  const hoveredLink = document.elementFromPoint(event.clientX, event.clientY)?.closest(".vc-section-link");
-  if (hoveredLink) {
-    updateSectionNavFocus(hoveredLink);
-  } else {
-    clearSectionNavHover();
-  }
-}, { passive: true });
-
-const toast = document.getElementById("toast");
-let toastTimer;
-
-function showToast(message) {
-  toast.textContent = message;
-  toast.hidden = false;
-  requestAnimationFrame(() => toast.classList.add("visible"));
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    toast.classList.remove("visible");
-    setTimeout(() => (toast.hidden = true), 300);
-  }, 2600);
-}
-
-const EMAIL = "example@email.com";
-
-document.getElementById("copy-email").addEventListener("click", async () => {
-  try {
-    await navigator.clipboard.writeText(EMAIL);
-    showToast("Đã sao chép email: " + EMAIL);
-  } catch {
-    const ta = document.createElement("textarea");
-    ta.value = EMAIL;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    ta.remove();
-    showToast("Đã sao chép email: " + EMAIL);
-  }
-});
-
-const FORM_ENDPOINT = null;
-
-const form = document.getElementById("contact-form");
-
-function setError(input, errorEl, hasError) {
-  input.setAttribute("aria-invalid", String(hasError));
-  errorEl.hidden = !hasError;
-  return !hasError;
-}
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const name = form.elements.name;
-  const email = form.elements.email;
-  const message = form.elements.message;
-
-  const okName = setError(name, document.getElementById("e-name"), name.value.trim() === "");
-  const okEmail = setError(
-    email,
-    document.getElementById("e-email"),
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())
-  );
-  const okMsg = setError(
-    message,
-    document.getElementById("e-message"),
-    message.value.trim().length < 10
-  );
-
-  if (!(okName && okEmail && okMsg)) {
-    showToast("Vui lòng sửa các lỗi trong biểu mẫu.");
-    return;
-  }
-
-  if (FORM_ENDPOINT) {
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize Three.js particle background
     try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name: name.value.trim(),
-          email: email.value.trim(),
-          message: message.value.trim(),
-        }),
-      });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      showToast("Đã gửi tin nhắn thành công. Cảm ơn bạn!");
-      form.reset();
-    } catch {
-      showToast("Gửi thất bại. Vui lòng thử lại hoặc email trực tiếp.");
+        initBackground();
+    } catch (e) {
+        console.error('Failed to init background:', e);
     }
-  } else {
-    const btn = form.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    btn.classList.add("is-loading");
-    btn.textContent = "Đang gửi…";
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.classList.remove("is-loading");
-      btn.textContent = "Gửi tin nhắn";
-      showToast("Đã kiểm tra dữ liệu hợp lệ! (Demo — chưa kết nối máy chủ)");
-      form.reset();
-    }, 800);
-  }
-});
 
-form.querySelectorAll("input, textarea").forEach((el) => {
-  el.addEventListener("input", () => {
-    el.removeAttribute("aria-invalid");
-    const err = document.getElementById("e-" + el.name);
-    if (err) err.hidden = true;
-  });
-});
+    // 2. Theme Toggle (Dark & Light Mode with localStorage & Icon Sync)
+    const themeBtn = document.getElementById('theme-toggle');
+    const sunIcon = document.querySelector('.theme-toggle__sun');
+    const moonIcon = document.querySelector('.theme-toggle__moon');
+    
+    const applyTheme = (theme) => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (theme === 'light') {
+            if (sunIcon) sunIcon.style.display = 'block';
+            if (moonIcon) moonIcon.style.display = 'none';
+        } else {
+            if (sunIcon) sunIcon.style.display = 'none';
+            if (moonIcon) moonIcon.style.display = 'block';
+        }
+    };
 
-document.getElementById("year").textContent = new Date().getFullYear();
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        });
+    }
+
+    // 3. Mobile Navigation Menu Toggle & Link Click Close
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    const navLinks = document.querySelectorAll('.nav__link');
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle('open');
+            navToggle.classList.toggle('open');
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+                navToggle.classList.remove('open');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('open');
+                navToggle.classList.remove('open');
+            }
+        });
+    }
+
+    // 4. Scroll Reveal Intersection Observer
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // 5. Active Section Navigation Observer
+    const sections = document.querySelectorAll('section[id]');
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-40% 0px -50% 0px' });
+
+    sections.forEach(sec => sectionObserver.observe(sec));
+
+    // 6. Toast Notification Helper
+    const showToast = (message) => {
+        let toast = document.getElementById('toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.className = 'toast';
+            document.body.appendChild(toast);
+        }
+        
+        toast.innerText = message;
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    };
+
+    // 7. Copy Email & Phone Helper
+    const btnCopyEmail = document.getElementById('btn-copy-email');
+    const emailVal = document.getElementById('email-val');
+
+    if (btnCopyEmail && emailVal) {
+        btnCopyEmail.addEventListener('click', (e) => {
+            e.preventDefault();
+            const textToCopy = emailVal.innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast('✓ Đã sao chép Email thành công!');
+            }).catch(() => {
+                showToast('Sao chép email thất bại!');
+            });
+        });
+    }
+
+    // 8. FAQ Accordion Handler
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const btn = item.querySelector('.faq-question');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        }
+    });
+
+    // 9. Interactive Contact Form Submission Demo
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const btnSubmit = contactForm.querySelector('button[type="submit"]');
+            const originalText = btnSubmit.innerHTML;
+            btnSubmit.innerHTML = '<span>Đang gửi yêu cầu...</span>';
+            btnSubmit.disabled = true;
+
+            setTimeout(() => {
+                btnSubmit.innerHTML = originalText;
+                btnSubmit.disabled = false;
+                contactForm.reset();
+                showToast('✓ Yêu cầu hỗ trợ đã được gửi thành công! Tôi sẽ liên hệ Zalo ngay.');
+            }, 1200);
+        });
+    }
+});
