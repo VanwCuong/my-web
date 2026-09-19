@@ -8,44 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Failed to init background:', e);
     }
 
-    // 2. Custom Liquid Cursor Effect
-    const matchPointer = window.matchMedia('(pointer: fine)');
-    const matchMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
-
-    if (matchPointer.matches && matchMotion.matches) {
-        const cursorDot = document.createElement('div');
-        cursorDot.className = 'custom-cursor-dot';
-        const cursorRing = document.createElement('div');
-        cursorRing.className = 'custom-cursor-ring';
-
-        document.body.appendChild(cursorDot);
-        document.body.appendChild(cursorRing);
-
-        let mouseX = 0, mouseY = 0;
-        let ringX = 0, ringY = 0;
-
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-        });
-
-        const renderRing = () => {
-            ringX += (mouseX - ringX) * 0.18;
-            ringY += (mouseY - ringY) * 0.18;
-            cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
-            requestAnimationFrame(renderRing);
-        };
-        requestAnimationFrame(renderRing);
-
-        document.querySelectorAll('a, button, .btn, .liquid-glass-card, .faq-question').forEach(el => {
-            el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
-        });
-    }
+    // 2. Scroll Progress Bar Update
+    const scrollProgressBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight > 0 && scrollProgressBar) {
+            const progress = (scrollTop / docHeight) * 100;
+            scrollProgressBar.style.width = `${progress}%`;
+        }
+    });
 
     // 3. Card Dynamic Radial Spotlight Mousemove Handler
-    const cards = document.querySelectorAll('.liquid-glass-card, .service-card, .pricing-card, .trust-item, .testimonial-card');
+    const cards = document.querySelectorAll('.liquid-glass-card, .service-card, .pricing-card, .trust-item');
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();

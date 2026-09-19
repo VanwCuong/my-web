@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Dịch vụ IT & Hỗ trợ máy tính chuyên nghiệp bởi Nguyễn Văn Cường. Cài đặt Windows, tối ưu hệ thống, cài đặt tiện ích văn phòng và sửa lỗi phần mềm uy tín, tận tâm, giá hợp lý.">
+    <meta name="description" content="Dịch vụ IT & Hỗ trợ máy tính bởi Nguyễn Văn Cường. Cài đặt Windows, tối ưu hệ thống, cài phần mềm làm việc và sửa lỗi phần mềm uy tín, giá hợp lý.">
     <meta name="author" content="Nguyễn Văn Cường">
-    <meta name="theme-color" content="#0b0f19">
-    <title>Nguyễn Văn Cường | Dịch Vụ IT & Hỗ Trợ Máy Tính Uy Tín</title>
+    <meta name="theme-color" content="#080c14">
+    <title>Nguyễn Văn Cường | Dịch Vụ Máy Tính & Hỗ Trợ Kỹ Thuật CNTT</title>
     
     <!-- Three.js Import Map -->
     <script type="importmap">
@@ -29,7 +29,11 @@
 <body>
     <a href="#main-content" class="skip-link">Chuyển đến nội dung chính</a>
     
-    <!-- Background Canvas & Liquid Ambient Glow -->
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-bar" id="scroll-progress"></div>
+
+    <!-- Background Canvas & Tech Mesh Grid -->
+    <div class="tech-grid-overlay"></div>
     <div class="noise"></div>
     <canvas id="bg-canvas"></canvas>
 
@@ -58,7 +62,7 @@
                     <svg class="theme-toggle__sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                 </button>
                 <a href="tel:0589595169" class="btn btn--header btn-liquid-glass">
-                    <span>Call / Zalo: 0589595169</span>
+                    <span>Zalo / SĐT: 0589595169</span>
                 </a>
                 <button class="nav__toggle" id="nav-toggle" aria-label="Mở menu">
                     <span class="nav__toggle-line"></span>
@@ -76,18 +80,18 @@
                 <div class="hero__content reveal">
                     <div class="hero__badge">
                         <span class="hero__badge-dot"></span>
-                        <span class="hero__badge-text">🟢 Đang Online — Phản hồi Zalo trong 5 phút</span>
+                        <span class="hero__badge-text">🟢 Sẵn sàng hỗ trợ máy tính 24/7</span>
                     </div>
                     <h1 class="hero__title">Nguyễn Văn Cường</h1>
                     <h2 class="hero__subtitle">Dịch Vụ Máy Tính & Hỗ Trợ Kỹ Thuật CNTT</h2>
-                    <p class="hero__desc">Giải quyết triệt để mọi sự cố máy tính: Cài đặt Windows chính hãng, tối ưu hệ thống mượt mà, dọn dẹp virus, cài đặt phần mềm và hỗ trợ bảo trì uy tín cho cá nhân & văn phòng.</p>
+                    <p class="hero__desc">Hỗ trợ cài đặt Windows bản quyền, dọn dẹp tăng tốc máy tính chạy chậm, cài đặt tiện ích làm việc và sửa lỗi phần mềm cho cá nhân, học sinh, sinh viên.</p>
                     
                     <div class="hero__actions">
                         <a href="https://zalo.me/0589595169" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn-liquid-glass">
-                            <span>Nhắn Zalo Ngay (0589595169)</span>
+                            <span>Liên Hệ Zalo (0589595169)</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </a>
-                        <a href="#services" class="btn btn--secondary btn-liquid-glass">Xem Các Dịch Vụ</a>
+                        <a href="#services" class="btn btn--secondary btn-liquid-glass">Xem Bảng Dịch Vụ</a>
                     </div>
                     
                     <div class="hero__stats">
@@ -96,12 +100,12 @@
                             <span class="stat-card__text">Máy tính đã hỗ trợ</span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-card__val">100%</span>
-                            <span class="stat-card__text">Khách hàng hài lòng</span>
+                            <span class="stat-card__val">24/7</span>
+                            <span class="stat-card__text">Tư vấn kỹ thuật</span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-card__val">24/7</span>
-                            <span class="stat-card__text">Tư vấn miễn phí</span>
+                            <span class="stat-card__val">30 Ngày</span>
+                            <span class="stat-card__text">Bảo hành hỗ trợ</span>
                         </div>
                     </div>
                 </div>
@@ -113,22 +117,15 @@
                         <div class="hero__floating-card float-1 liquid-glass-card">
                             <div class="icon-box">⚡</div>
                             <div>
-                                <strong>Tối Ưu 100%</strong>
-                                <span>Tăng tốc hệ thống</span>
+                                <strong>Tối Ưu Hệ Thống</strong>
+                                <span>Tăng tốc máy tính</span>
                             </div>
                         </div>
                         <div class="hero__floating-card float-2 liquid-glass-card">
                             <div class="icon-box">🛡️</div>
                             <div>
                                 <strong>Bảo Mật Dữ Liệu</strong>
-                                <span>An toàn 100%</span>
-                            </div>
-                        </div>
-                        <div class="hero__floating-card float-3 liquid-glass-card">
-                            <div class="icon-box">⭐</div>
-                            <div>
-                                <strong>5.0 Đánh Giá</strong>
-                                <span>Tận tâm & uy tín</span>
+                                <span>An toàn cá nhân</span>
                             </div>
                         </div>
                     </div>
@@ -140,29 +137,29 @@
             </a>
         </section>
 
-        <!-- Trust Pillars Section (Tạo niềm tin khách hàng) -->
+        <!-- Trust Pillars Section -->
         <section class="trust-section section" id="trust">
             <div class="container">
                 <div class="trust__grid">
-                    <div class="trust-item reveal">
+                    <div class="trust-item reveal liquid-glass-card">
                         <div class="trust-icon">🛡️</div>
                         <h3>Bảo Mật Dữ Liệu 100%</h3>
-                        <p>Tuyệt đối không xóa mất hay rò rỉ dữ liệu cá nhân của bạn trong quá trình xử lý.</p>
+                        <p>Tuyệt đối không xóa mất hay rò rỉ dữ liệu cá nhân của khách hàng trong quá trình cài đặt & sửa chữa.</p>
                     </div>
-                    <div class="trust-item reveal" style="transition-delay: 0.1s">
+                    <div class="trust-item reveal liquid-glass-card" style="transition-delay: 0.1s">
                         <div class="trust-icon">💰</div>
                         <h3>Báo Giá Trước Khi Làm</h3>
-                        <p>Kiểm tra tình trạng máy và báo giá minh bạch trước khi thực hiện, không phí phát sinh.</p>
+                        <p>Kiểm tra tình trạng máy và thống nhất chi phí rõ ràng trước khi tiến hành, không chi phí ẩn.</p>
                     </div>
-                    <div class="trust-item reveal" style="transition-delay: 0.2s">
+                    <div class="trust-item reveal liquid-glass-card" style="transition-delay: 0.2s">
                         <div class="trust-icon">⚡</div>
-                        <h3>Xử Lý Nhanh Chóng</h3>
-                        <p>Hoàn thành cài đặt & hỗ trợ đúng hẹn, hỗ trợ UltraViewer/AnyDesk từ xa tiện lợi.</p>
+                        <h3>Xử Lý Đúng Hẹn</h3>
+                        <p>Hoàn thành cài đặt & hỗ trợ đúng thời gian cam kết, hỗ trợ xử lý từ xa qua UltraViewer / AnyDesk.</p>
                     </div>
-                    <div class="trust-item reveal" style="transition-delay: 0.3s">
+                    <div class="trust-item reveal liquid-glass-card" style="transition-delay: 0.3s">
                         <div class="trust-icon">🔄</div>
                         <h3>Bảo Hành 30 Ngày</h3>
-                        <p>Hỗ trợ kỹ thuật miễn phí trong 30 ngày sau khi hoàn thành dịch vụ.</p>
+                        <p>Hỗ trợ kỹ thuật chu đáo hoàn toàn miễn phí trong 30 ngày sau khi hoàn tất dịch vụ.</p>
                     </div>
                 </div>
             </div>
@@ -174,33 +171,33 @@
                 <div class="section__header reveal">
                     <span class="section__eyebrow">Giới thiệu</span>
                     <h2 class="section__title">Về Bản Thân & Tinh Thần Trách Nhiệm</h2>
-                    <p class="section__subtitle">Trung thực — Tận tâm — Chu đáo trên từng sản phẩm</p>
+                    <p class="section__subtitle">Trung thực — Rõ ràng — Hỗ trợ tận tình</p>
                 </div>
                 
                 <div class="about__grid">
                     <div class="about__card main-bio reveal liquid-glass-card">
-                        <h3 class="about__card-title">Xin chào, tôi là Nguyễn Văn Cường</h3>
-                        <p>Hiện tôi đang là học sinh lớp 11 với tình yêu và niềm đam mê mãnh liệt dành cho máy tính và công nghệ thông tin. Tôi đã dành nhiều thời gian tự học, nghiên cứu phần cứng, tối ưu phần mềm và thực hành sửa chữa nhiều sự cố máy tính thực tế.</p>
-                        <p>Tuy chưa có nhiều năm tuổi nghề, tôi cam kết làm việc với tinh thần trách nhiệm cao nhất, luôn tôn trọng quyền riêng tư của khách hàng, lắng nghe nhu cầu và đảm bảo mang lại hiệu quả tốt nhất cho chiếc máy tính của bạn.</p>
+                        <h3 class="about__card-title">Tôi là Nguyễn Văn Cường</h3>
+                        <p>Tôi hiện là học sinh lớp 11 đam mê công nghệ thông tin và máy tính. Tôi tự học và thực hành chuyên sâu về cài đặt hệ điều hành, tối ưu phần cứng và xử lý sự cố phần mềm.</p>
+                        <p>Tôi nhận hỗ trợ kỹ thuật máy tính cho những ai gặp khó khăn với công nghệ. Tôi luôn làm việc cẩn thận, tôn trọng quyền riêng tư dữ liệu của khách hàng và báo giá minh bạch trước khi làm.</p>
                         
                         <div class="about__highlights">
                             <div class="highlight-item">
                                 <div class="highlight-icon">✓</div>
-                                <span>Báo đúng bệnh, báo đúng giá trước khi thực hiện</span>
+                                <span>Báo đúng tình trạng máy và báo giá trước khi thực hiện</span>
                             </div>
                             <div class="highlight-item">
                                 <div class="highlight-icon">✓</div>
-                                <span>Tư vấn giải pháp tiết kiệm nhất cho học sinh & cá nhân</span>
+                                <span>Tư vấn phương án tiết kiệm nhất cho học sinh & cá nhân</span>
                             </div>
                             <div class="highlight-item">
                                 <div class="highlight-icon">✓</div>
-                                <span>Hỗ trợ kỹ thuật tận tình qua Zalo & UltraViewer</span>
+                                <span>Hỗ trợ từ xa tiện lợi qua Zalo & UltraViewer</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="about__card side-info reveal liquid-glass-card">
-                        <h3 class="about__card-title">Thông Tin Kỹ Thuật Viên</h3>
+                        <h3 class="about__card-title">Thông Tin Liên Hệ</h3>
                         <ul class="info-list">
                             <li class="info-item">
                                 <span class="info-label">Địa điểm:</span>
@@ -219,7 +216,7 @@
                             </li>
                             <li class="info-item">
                                 <span class="info-label">Đối tượng phục vụ:</span>
-                                <span class="info-value">Học sinh, sinh viên, người làm việc văn phòng</span>
+                                <span class="info-value">Học sinh, sinh viên & người dùng cá nhân</span>
                             </li>
                         </ul>
                     </div>
@@ -232,8 +229,8 @@
             <div class="container">
                 <div class="section__header reveal">
                     <span class="section__eyebrow">Dịch vụ</span>
-                    <h2 class="section__title">Dịch Vụ Kỹ Thuật Máy Tính Nổi Bật</h2>
-                    <p class="section__subtitle">Giải quyết tận gốc các vấn đề hệ điều hành và phần mềm</p>
+                    <h2 class="section__title">Các Dịch Vụ Kỹ Thuật Máy Tính</h2>
+                    <p class="section__subtitle">Xử lý nhanh chóng các vấn đề hệ thống và phần mềm</p>
                 </div>
                 
                 <div class="services__grid">
@@ -242,9 +239,9 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
                         </div>
                         <h3 class="service-card__title">Cài Đặt Windows 10 / 11</h3>
-                        <p class="service-card__desc">Cài đặt hệ điều hành Windows chính hãng mượt mà, đầy đủ Driver tương thích 100% với linh kiện máy tính, kích hoạt bản quyền nhanh chóng.</p>
+                        <p class="service-card__desc">Cài đặt chuẩn Win chính hãng, đầy đủ bộ Driver phần cứng, kích hoạt bản quyền và thiết lập tối ưu máy chạy trơn tru.</p>
                         <ul class="service-card__features">
-                            <li>Cài full driver phần cứng</li>
+                            <li>Đầy đủ Driver phần cứng</li>
                             <li>Tối ưu khởi động hệ thống</li>
                         </ul>
                     </div>
@@ -254,10 +251,10 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                         </div>
                         <h3 class="service-card__title">Tối Ưu & Tăng Tốc Máy Tính</h3>
-                        <p class="service-card__desc">Dọn sạch tập tin rác đệm, loại bỏ ứng dụng ngầm ngốn tài nguyên, giải phóng RAM và tối ưu CPU giúp máy chạy êm và nhanh hơn rõ rệt.</p>
+                        <p class="service-card__desc">Dọn dẹp rác hệ thống, loại bỏ phần mềm ngầm thừa thãi, tối ưu dung lượng RAM và CPU giúp máy chạy mượt hơn.</p>
                         <ul class="service-card__features">
-                            <li>Giải phóng bộ nhớ dung lượng đĩa</li>
-                            <li>Khắc phục tình trạng đơ/giật lag</li>
+                            <li>Giải phóng dung lượng ổ đĩa</li>
+                            <li>Giảm tình trạng đơ/giật lag</li>
                         </ul>
                     </div>
                     
@@ -266,10 +263,10 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
                         </div>
                         <h3 class="service-card__title">Cài Đặt Phần Mềm Tiện Ích</h3>
-                        <p class="service-card__desc">Cài trọn bộ Office (Word, Excel, PowerPoint), Zalo, Unikey, phần mềm diệt virus, Adobe, Foxit Reader và ứng dụng theo yêu cầu công việc.</p>
+                        <p class="service-card__desc">Cài đặt Office (Word, Excel, PowerPoint), Zalo, Unikey, phần mềm diệt virus, trình đọc PDF và ứng dụng phục vụ công việc.</p>
                         <ul class="service-card__features">
-                            <li>Bộ Office & phông chữ Tiếng Việt</li>
-                            <li>Phần mềm bảo vệ chống virus</li>
+                            <li>Bộ tiện ích văn phòng đầy đủ</li>
+                            <li>Tích hợp bộ diệt virus uy tín</li>
                         </ul>
                     </div>
                     
@@ -278,9 +275,9 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                         </div>
                         <h3 class="service-card__title">Khắc Phục Lỗi Phần Mềm</h3>
-                        <p class="service-card__desc">Chẩn đoán và khắc phục nhanh sự cố màn hình xanh (BSOD), treo ứng dụng, xung đột phần mềm, virus quảng cáo độc hại hoặc lỗi mạng không vào được Internet.</p>
+                        <p class="service-card__desc">Sửa sự cố màn hình xanh (BSOD), treo máy, ứng dụng không mở được, nhiễm virus quảng cáo độc hại hoặc lỗi mạng không vào được Internet.</p>
                         <ul class="service-card__features">
-                            <li>Xử lý sự cố tận gốc</li>
+                            <li>Chẩn đoán lỗi chính xác</li>
                             <li>Quét mã độc & virus hệ thống</li>
                         </ul>
                     </div>
@@ -293,33 +290,33 @@
             <div class="container">
                 <div class="section__header reveal">
                     <span class="section__eyebrow">Quy trình</span>
-                    <h2 class="section__title">4 Bước Hỗ Trợ Chuyên Nghiệp</h2>
-                    <p class="section__subtitle">Quy trình làm việc minh bạch từ A đến Z</p>
+                    <h2 class="section__title">4 Bước Hỗ Trợ Rõ Ràng</h2>
+                    <p class="section__subtitle">Minh bạch từ tiếp nhận đến nghiệm thu</p>
                 </div>
                 
                 <div class="process__steps">
                     <div class="process-step reveal liquid-glass-card">
                         <div class="process-step__number">01</div>
-                        <h3 class="process-step__title">Tiếp Nhận Yêu Cầu</h3>
-                        <p class="process-step__desc">Bạn liên hệ qua Zalo hoặc Hotline `0589595169` trình bày sự cố máy tính đang gặp phải.</p>
+                        <h3 class="process-step__title">Tiếp Nhận</h3>
+                        <p class="process-step__desc">Bạn liên hệ qua Zalo hoặc Hotline `0589595169` mô tả sự cố máy tính đang gặp.</p>
                     </div>
                     
                     <div class="process-step reveal liquid-glass-card" style="transition-delay: 0.1s">
                         <div class="process-step__number">02</div>
                         <h3 class="process-step__title">Chẩn Đoán & Báo Giá</h3>
-                        <p class="process-step__desc">Tôi tiến hành kiểm tra tình trạng máy, đề xuất phương án và báo giá minh bạch trước khi thực hiện.</p>
+                        <p class="process-step__desc">Tôi kiểm tra máy, báo nguyên nhân và thống nhất chi phí rõ ràng trước khi làm.</p>
                     </div>
                     
                     <div class="process-step reveal liquid-glass-card" style="transition-delay: 0.2s">
                         <div class="process-step__number">03</div>
-                        <h3 class="process-step__title">Tiến Hành Xử Lý</h3>
-                        <p class="process-step__desc">Cài đặt, sửa lỗi hoặc tối ưu máy tính cẩn thận, đảm bảo giữ an toàn 100% dữ liệu của bạn.</p>
+                        <h3 class="process-step__title">Xử Lý & Cài Đặt</h3>
+                        <p class="process-step__desc">Tiến hành cài đặt, tối ưu hoặc sửa lỗi cẩn thận, đảm bảo an toàn 100% dữ liệu cá nhân.</p>
                     </div>
                     
                     <div class="process-step reveal liquid-glass-card" style="transition-delay: 0.3s">
                         <div class="process-step__number">04</div>
                         <h3 class="process-step__title">Nghiệm Thu & Bảo Hành</h3>
-                        <p class="process-step__desc">Cùng bạn test lại máy tính, hướng dẫn mẹo bảo dưỡng và kích hoạt bảo hành 30 ngày chu đáo.</p>
+                        <p class="process-step__desc">Cùng bạn test lại máy tính và kích hoạt bảo hành hỗ trợ 30 ngày từ xa chu đáo.</p>
                     </div>
                 </div>
             </div>
@@ -330,8 +327,8 @@
             <div class="container">
                 <div class="section__header reveal">
                     <span class="section__eyebrow">Bảng giá</span>
-                    <h2 class="section__title">Chi Phí Minh Bạch & Hợp Lý</h2>
-                    <p class="section__subtitle">Giá cả vừa túi tiền học sinh - sinh viên & người dùng cá nhân</p>
+                    <h2 class="section__title">Chi Phí Minh Bạch & Tham Khảo</h2>
+                    <p class="section__subtitle">Giá cả vừa túi tiền học sinh, sinh viên & cá nhân</p>
                 </div>
                 
                 <div class="pricing__grid">
@@ -343,13 +340,13 @@
                         <ul class="pricing-card__list">
                             <li>Windows 10 / 11 chuẩn chính hãng</li>
                             <li>Đầy đủ bộ Driver card đồ họa & wifi</li>
-                            <li>Bảo hành hỗ trợ từ xa 30 ngày</li>
+                            <li>Bảo hành hỗ trợ 30 ngày</li>
                         </ul>
                         <a href="#contact" class="btn btn--pricing btn-liquid-glass">Đăng ký dịch vụ</a>
                     </div>
                     
                     <div class="pricing-card pricing-card--featured reveal liquid-glass-card" style="transition-delay: 0.1s">
-                        <div class="featured-badge">Khuyên Dùng — Tiết Kiệm Nhất</div>
+                        <div class="featured-badge">Gói Trọn Gói Phổ Biến</div>
                         <div class="pricing-card__header">
                             <h3 class="pricing-card__title">Gói Trọn Gói Máy Tính</h3>
                             <div class="pricing-card__price">200.000đ <span>- 400.000đ</span></div>
@@ -358,7 +355,7 @@
                             <li>Cài Win 10/11 + Đầy đủ Driver chuẩn</li>
                             <li>Cài trọn bộ Office, Zalo, Unikey, PDF</li>
                             <li>Tối ưu hệ thống & giải phóng bộ nhớ RAM</li>
-                            <li>Quét sạch virus & chặn mã độc quảng cáo</li>
+                            <li>Quét virus & chặn mã độc quảng cáo</li>
                             <li>Hỗ trợ kỹ thuật ưu tiên 24/7 qua Zalo</li>
                         </ul>
                         <a href="https://zalo.me/0589595169" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn-liquid-glass">Chọn Gói Trọn Gói</a>
@@ -378,7 +375,7 @@
                     </div>
                 </div>
                 
-                <p class="pricing-note reveal">* Giá thực tế tùy thuộc vào từng dòng máy và mức độ sự cố. Tôi luôn báo giá trước khi bắt đầu thực hiện!</p>
+                <p class="pricing-note reveal">* Giá thực tế tùy thuộc vào tình trạng cụ thể của máy. Hãy liên hệ để nhận báo giá chính xác nhất!</p>
             </div>
         </section>
 
@@ -388,77 +385,37 @@
                 <div class="section__header reveal">
                     <span class="section__eyebrow">Giải đáp</span>
                     <h2 class="section__title">Câu Hỏi Thường Gặp (FAQ)</h2>
-                    <p class="section__subtitle">Những thắc mắc phổ biến của khách hàng trước khi sử dụng dịch vụ</p>
+                    <p class="section__subtitle">Thắc mắc phổ biến trước khi sử dụng dịch vụ</p>
                 </div>
                 
                 <div class="faq__grid">
                     <div class="faq-item reveal liquid-glass-card">
                         <button class="faq-question">
-                            <span>1. Cài lại Windows có bị mất dữ liệu cá nhân trên máy không?</span>
+                            <span>1. Cài lại Windows có bị mất dữ liệu cá nhân không?</span>
                             <span class="faq-icon">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>Hoàn toàn KHÔNG! Tôi luôn tiến hành lưu trữ và di chuyển dữ liệu quan trọng ở ổ đĩa C (Desktop, Documents, Downloads) sang ổ đĩa khác an toàn trước khi tiến hành cài lại Win.</p>
+                            <p>Không! Tôi luôn sao lưu và di chuyển dữ liệu quan trọng ở ổ C sang ổ đĩa khác an toàn trước khi cài lại Win.</p>
                         </div>
                     </div>
                     
                     <div class="faq-item reveal liquid-glass-card" style="transition-delay: 0.1s">
                         <button class="faq-question">
-                            <span>2. Sau khi làm xong có được hỗ trợ bảo hành không?</span>
+                            <span>2. Dịch vụ có hỗ trợ bảo hành sau khi cài đặt xong không?</span>
                             <span class="faq-icon">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>Có! Tất cả các dịch vụ cài đặt và tối ưu đều được bảo hành hỗ trợ kỹ thuật miễn phí trong vòng 30 ngày qua Zalo hoặc công cụ hỗ trợ từ xa UltraViewer/AnyDesk.</p>
+                            <p>Có! Các dịch vụ cài đặt và tối ưu đều được bảo hành hỗ trợ kỹ thuật miễn phí 30 ngày từ xa qua UltraViewer / AnyDesk / Zalo.</p>
                         </div>
                     </div>
                     
                     <div class="faq-item reveal liquid-glass-card" style="transition-delay: 0.2s">
                         <button class="faq-question">
-                            <span>3. Chi phí dịch vụ có phát sinh thêm không?</span>
+                            <span>3. Chi phí có bị phát sinh thêm sau khi làm không?</span>
                             <span class="faq-icon">+</span>
                         </button>
                         <div class="faq-answer">
-                            <p>Tôi luôn chẩn đoán kỹ tình trạng máy và báo giá trọn gói trước khi làm. Cam kết không phát sinh bất kỳ khoản chi phí ẩn nào sau khi hoàn thành.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section class="testimonials section" id="testimonials">
-            <div class="container">
-                <div class="section__header reveal">
-                    <span class="section__eyebrow">Đánh giá</span>
-                    <h2 class="section__title">Đánh Giá Từ Khách Hàng</h2>
-                    <p class="section__subtitle">Sự tín nhiệm của khách hàng là động lực làm việc của tôi</p>
-                </div>
-                
-                <div class="testimonials__grid">
-                    <div class="testimonial-card reveal liquid-glass-card">
-                        <div class="stars">★★★★★</div>
-                        <p class="testimonial-text">"Cường hỗ trợ rất nhiệt tình và chu đáo. Máy mình bị nhiễm virus nặng chạy cực kỳ đơ, sau khi được bạn tối ưu và dọn dẹp thì máy chạy nhanh hẳn lên. Rất hài lòng!"</p>
-                        <div class="testimonial-author">
-                            <strong>Anh Minh</strong>
-                            <span>Khách hàng tại Hồ Chí Minh</span>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card reveal liquid-glass-card" style="transition-delay: 0.1s">
-                        <div class="stars">★★★★★</div>
-                        <p class="testimonial-text">"Mình nhờ Cường cài lại Win 11 và trọn bộ Office. Bạn làm việc cẩn thận, bảo mật dữ liệu cho mình rất tốt mà chi phí lại rất vừa túi tiền học sinh sinh viên."</p>
-                        <div class="testimonial-author">
-                            <strong>Chị Hương</strong>
-                            <span>Sinh viên Đại học</span>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card reveal liquid-glass-card" style="transition-delay: 0.2s">
-                        <div class="stars">★★★★★</div>
-                        <p class="testimonial-text">"Máy mình bị lỗi màn hình xanh liên tục, Cường bắt đúng bệnh và sửa chữa nhanh gọn trong chưa đầy 1 tiếng. Bạn còn hướng dẫn mình cách dùng máy bền nữa."</p>
-                        <div class="testimonial-author">
-                            <strong>Bạn Tuấn</strong>
-                            <span>Khách hàng cá nhân</span>
+                            <p>Tôi luôn chẩn đoán kỹ và báo giá trọn gói trước khi làm, cam kết không phát sinh bất kỳ khoản phí nào sau đó.</p>
                         </div>
                     </div>
                 </div>
@@ -471,8 +428,8 @@
                 <div class="contact__wrapper reveal liquid-glass-card">
                     <div class="contact__info">
                         <span class="section__eyebrow">Liên hệ</span>
-                        <h2 class="contact__title">Liên Hệ Hỗ Trợ Kỹ Thuật Ngay</h2>
-                        <p class="contact__desc">Máy tính của bạn đang gặp sự cố? Đừng ngần ngại gọi điện hoặc nhắn tin Zalo, tôi sẽ phản hồi và tư vấn giải pháp nhanh nhất!</p>
+                        <h2 class="contact__title">Liên Hệ Trực Tiếp Để Được Hỗ Trợ</h2>
+                        <p class="contact__desc">Máy tính của bạn đang gặp sự cố? Hãy gọi điện hoặc nhắn Zalo, tôi sẽ phản hồi ngay lập tức!</p>
                         
                         <div class="contact__methods">
                             <div class="contact-method">
@@ -505,9 +462,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="message">Mô tả sự cố máy tính</label>
-                                <textarea id="message" name="message" rows="4" required placeholder="Mô tả sự cố máy tính đang gặp (ví dụ: máy bị chậm, cài Win, màn hình xanh...)..."></textarea>
+                                <textarea id="message" name="message" rows="4" required placeholder="Mô tả sự cố máy tính đang gặp..."></textarea>
                             </div>
-                            <button type="submit" class="btn btn--primary btn--full btn-liquid-glass">Gửi Yêu Cầu Hỗ Trợ Ngay</button>
+                            <button type="submit" class="btn btn--primary btn--full btn-liquid-glass">Gửi Yêu Cầu Hỗ Trợ</button>
                         </form>
                     </div>
                 </div>
@@ -520,7 +477,7 @@
         <div class="container footer__container">
             <div class="footer__brand">
                 <a href="#" class="footer__logo">VanwCuong.it</a>
-                <p>Dịch vụ máy tính & hỗ trợ kỹ thuật CNTT uy tín, trung thực, tận tâm.</p>
+                <p>Dịch vụ máy tính & hỗ trợ kỹ thuật CNTT uy tín, cẩn thận, tận tâm.</p>
             </div>
             
             <div class="footer__socials">
