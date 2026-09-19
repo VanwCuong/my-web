@@ -8,7 +8,55 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Failed to init background:', e);
     }
 
-    // 2. Theme Toggle (Dark & Light Mode with localStorage & Icon Sync)
+    // 2. Custom Liquid Cursor Effect
+    const matchPointer = window.matchMedia('(pointer: fine)');
+    const matchMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+
+    if (matchPointer.matches && matchMotion.matches) {
+        const cursorDot = document.createElement('div');
+        cursorDot.className = 'custom-cursor-dot';
+        const cursorRing = document.createElement('div');
+        cursorRing.className = 'custom-cursor-ring';
+
+        document.body.appendChild(cursorDot);
+        document.body.appendChild(cursorRing);
+
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        });
+
+        const renderRing = () => {
+            ringX += (mouseX - ringX) * 0.18;
+            ringY += (mouseY - ringY) * 0.18;
+            cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
+            requestAnimationFrame(renderRing);
+        };
+        requestAnimationFrame(renderRing);
+
+        document.querySelectorAll('a, button, .btn, .liquid-glass-card, .faq-question').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+        });
+    }
+
+    // 3. Card Dynamic Radial Spotlight Mousemove Handler
+    const cards = document.querySelectorAll('.liquid-glass-card, .service-card, .pricing-card, .trust-item, .testimonial-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    // 4. Theme Toggle (Dark & Light Mode with localStorage & Icon Sync)
     const themeBtn = document.getElementById('theme-toggle');
     const sunIcon = document.querySelector('.theme-toggle__sun');
     const moonIcon = document.querySelector('.theme-toggle__moon');
@@ -36,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Mobile Navigation Menu Toggle & Link Click Close
+    // 5. Mobile Navigation Menu Toggle & Link Click Close
     const navToggle = document.getElementById('nav-toggle');
     const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.nav__link');
@@ -63,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Scroll Reveal Intersection Observer
+    // 6. Scroll Reveal Intersection Observer
     const revealElements = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -76,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // 5. Active Section Navigation Observer
+    // 7. Active Section Navigation Observer
     const sections = document.querySelectorAll('section[id]');
     const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -94,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sections.forEach(sec => sectionObserver.observe(sec));
 
-    // 6. Toast Notification Helper
+    // 8. Toast Notification Helper
     const showToast = (message) => {
         let toast = document.getElementById('toast');
         if (!toast) {
@@ -112,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     };
 
-    // 7. Copy Email & Phone Helper
+    // 9. Copy Email Helper
     const btnCopyEmail = document.getElementById('btn-copy-email');
     const emailVal = document.getElementById('email-val');
 
@@ -128,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 8. FAQ Accordion Handler
+    // 10. FAQ Accordion Handler
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const btn = item.querySelector('.faq-question');
@@ -143,7 +191,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 9. Interactive Contact Form Submission Demo
+    // 11. Counter Animation on Scroll
+    const statVals = document.querySelectorAll('.stat-card__val[data-target]');
+    const statObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = parseInt(entry.target.getAttribute('data-target'), 10);
+                let current = 0;
+                const increment = Math.ceil(target / 40);
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        entry.target.innerText = `${target}+`;
+                        clearInterval(timer);
+                    } else {
+                        entry.target.innerText = `${current}+`;
+                    }
+                }, 30);
+                statObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    statVals.forEach(val => statObserver.observe(val));
+
+    // 12. Interactive Contact Form Submission Demo
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
